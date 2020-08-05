@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>canvas</title>
+  <style>
+    #info {
+      position: fixed;
+      top: 10px;
+      right: 100px;
+    }
+
+    h2#score {
+      color: green;
+      border: 2px dotted red;
+      border-radius: 20px;
+      padding: 80px;
+      width: 250px;
+    }
+
+    #actionBox {
+      color: green;
+      border: 2px dotted red;
+      border-radius: 20px;
+      padding: 80px;
+      width: 250px;
+      text-align: center;
+    }
+
+    #actionBox .btn {
+      background-color: black;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      outline: 0px;
+    }
+  </style>
+</head>
+
+<body style="padding: 0px;margin: 0px;position: relative;" onkeyup="handleKeyUp()">
+  <canvas id="canva" width="100" height="200"
+    style="border: 1px solid blue;padding: 0px;margin-left: 20px;display: inline;"></canvas>
+  <div id="info">
+    <br />
+    <h2 id="score"></h2>
+    <br /><br />
+    <div id="actionBox">
+      <button class="btn" onclick="speedUP()">&uarr;</button> <br />
+      <button class="btn" onclick="speedLeft()">&larr;</button>
+      <button class="btn" onclick="handlePauseOrRsume()">P/R</button>
+      <button class="btn" onclick="speedRight()">&rarr;</button> <br />
+      <button class="btn" onclick="speedDown()">&darr;</button>
+    </div>
+  </div>
+  <script>
+    let canvaEl = document.getElementById("canva");
+    let windowWidth = document.documentElement.clientWidth;
+    let windowheight = document.documentElement.clientHeight;
+
+    let yMargin = 10;
+    let xMargin = 20;
+    let borderThickness = 1;
+    /* adjust the width and height of the canvas*/
+    canvaEl.width = (windowWidth - 2 * (xMargin + borderThickness)) / 2;
+    canvaEl.height = windowheight - 2 * (yMargin + borderThickness) - 200;
+
+    let ctx = canvaEl.getContext("2d"); //getting a drawing object
+
+    let circle = {
+      cX: 20,
+      cY: 10,
+      speedX: 5,
+      speedY: 5,
+      radius: 10
+    };
+    let score = 0;
+    let delay = 10;
+    //start to move ths circle
+    let timerId = setInterval(() => {
+      moveCircle();
+    }, delay);
+
+    function moveCircle() {
+      if (circle.cX + circle.radius >= canvaEl.width) {
+        speedLeft();
+      } else if (circle.cX - circle.radius <= 0) {
+        speedRight();
+      }
+
+      if (circle.cY + circle.radius >= canvaEl.height) {
+        speedUP();
+      } else if (circle.cY - circle.radius <= 0) {
+        speedDown();
+      }
+
+      circle.cX += circle.speedX;
+      circle.cY += circle.speedY;
+
+      updateScoreDisplay();
+      score++;
+
+      ctx.clearRect(0, 0, canvaEl.width, canvaEl.height);
+      ctx.beginPath();
+      ctx.fillStyle = "#ff0000"; //red
+      ctx.arc(circle.cX, circle.cY, circle.radius, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+
+    function handleKeyUp() {
+      /**
+       * keyCode=32 => space
+       * keyCode=37 => ArrowLeft
+       * keyCode=38 => ArrowUp
+       * keyCode=39 => ArrowRight
+       * keyCode=40 => ArrowDown
+       *
+       */
+      if (event.keyCode == 32) {
+        handlePauseOrRsume();
+      } else if (event.keyCode == 37) {
+        speedLeft();
+      } else if (event.keyCode == 38) {
+        speedUP();
+      } else if (event.keyCode == 39) {
+        speedRight();
+      } else if (event.keyCode == 40) {
+        speedDown();
+      }
+    }
+
+    function handlePauseOrRsume() {
+      if (timerId) {
+        pause();
+      } else {
+        resume();
+      }
+    }
+
+    function pause() {
+      clearInterval(timerId);
+      timerId = null;
+    }
+
+    function resume() {
+      timerId = setInterval(() => {
+        moveCircle();
+      }, delay);
+    }
+
+    function speedUP() {
+      circle.speedY = -Math.abs(circle.speedY);
+    }
+
+    function speedDown() {
+      circle.speedY = Math.abs(circle.speedY);
+    }
+
+    function speedRight() {
+      circle.speedX = Math.abs(circle.speedX);
+    }
+
+    function speedLeft() {
+      circle.speedX = -Math.abs(circle.speedX);
+    }
+
+    function updateScoreDisplay() {
+      let scoreEl = document.getElementById("score");
+      scoreEl.innerHTML = `Score: ${score}`;
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas</title>
+  </head>
+  <body style="padding: 0px;margin: 0px;">
+    <canvas
+      id="canva"
+      width="100"
+      height="200"
+      style="border: 1px solid blue;padding: 0px;margin-left: 20px;margin-right: 20px;margin-top: 10px;"
+    ></canvas>
+    <script>
+      let canvaEl = document.getElementById("canva");
+      let windowWidth = document.documentElement.clientWidth;
+      let windowheight = document.documentElement.clientHeight;
+
+      let yMargin = 10;
+      let xMargin = 20;
+      let borderThickness = 1;
+      /* adjust the width and height of the canvas*/
+      canvaEl.width = windowWidth - 2 * (xMargin + borderThickness);
+      canvaEl.height = windowheight - 2 * (yMargin + borderThickness);
+
+      let ctx = canvaEl.getContext("2d"); //getting a drawing object
+      ctx.beginPath();
+      ctx.rect(200, 100, 200, 200);
+      ctx.fillStyle = "#ff0000";
+      ctx.fill();
+
+      ctx.rect(500, 100, 200, 200);
+      ctx.strokeStyle = "#ff0000";
+      ctx.stroke();
+    </script>
+  </body>
+</html>

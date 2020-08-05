@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>canvas</title>
+  </head>
+  <body style="padding: 0px;margin: 0px;">
+    <canvas
+      id="canva"
+      width="100"
+      height="200"
+      style="border: 1px solid blue;padding: 0px;margin-left: 20px;margin-right: 20px;margin-top: 10px;"
+    ></canvas>
+    <script>
+      let canvaEl = document.getElementById("canva");
+      let windowWidth = document.documentElement.clientWidth;
+      let windowheight = document.documentElement.clientHeight;
+
+      let yMargin = 10;
+      let xMargin = 20;
+      let borderThickness = 1;
+      /* adjust the width and height of the canvas*/
+      canvaEl.width = windowWidth - 2 * (xMargin + borderThickness);
+      canvaEl.height = windowheight - 2 * (yMargin + borderThickness);
+
+      let ctx = canvaEl.getContext("2d"); //getting a drawing object
+      /* drawing a line */
+      ctx.moveTo(100, 200); //defines the starting point of the line
+      ctx.lineTo(400, 500); //defines the ending point of the line
+      ctx.stroke(); //to actually draw the line, i.e adding ink
+
+      //drawing a straigh line i.e the y-axis should have to be constant
+      ctx.moveTo(200, 200);
+      ctx.lineTo(500, 200);
+      ctx.stroke();
+
+      //drawing vertical line
+      ctx.moveTo(150, 150);
+      ctx.lineTo(150, 400);
+      ctx.stroke();
+
+      //drawing successive lines
+      ctx.moveTo(400, 300);
+      ctx.lineTo(700, 300);
+      ctx.lineTo(700, 100);
+      ctx.lineTo(800, 300);
+      ctx.lineTo(850, 350);
+      ctx.lineTo(700, 400);
+      ctx.stroke();
+    </script>
+  </body>
+</html>

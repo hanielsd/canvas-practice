@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>window size</title>
+    <script>
+      function changeCoordinates() {
+        document.getElementById(
+          "displaycoor"
+        ).innerHTML = `coordinates(x,y)=(${event.clientX}, ${event.clientY})`;
+      }
+    </script>
+  </head>
+  <body onmousemove="changeCoordinates()" style="background-color: bisque">
+    <div>
+      <h2 id="display"></h2>
+      <h2 id="displaycoor">coordinates(x,y)=(0, 0)</h2>
+    </div>
+    <script>
+      let width = document.documentElement.clientWidth;
+      let height = document.documentElement.clientHeight;
+      document.getElementById(
+        "display"
+      ).innerHTML = `window(width,height)=(${width}, ${height})`;
+    </script>
+  </body>
+</html>
